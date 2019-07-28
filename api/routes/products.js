@@ -1,6 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
+
+// used where the mongoose model is instantiated
+const mongoose = require('mongoose');
+
+
+// Require the database model
+const Products = require('../models/products');
+
+
+
 // I have used '/' without the products since in the routes middleware in app.js is specified with a /products
 router.get("/", (req, res, next) => {
   res.status(200).json({ 
@@ -12,7 +22,16 @@ router.post("/", (req, res, next) => {
   const product = {
     name: req.body.name,
     price: req.body.price
-  }
+  };
+
+  // create a new product on the database
+  // const product = new Products({
+  //   _id: new mongoose.Types.ObjectId(),
+
+  // })
+
+
+
   res.status(201).json({ 
     message: "handling /POST requests to /products",
     createdProduct: product

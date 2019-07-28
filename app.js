@@ -1,11 +1,22 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-
+const mongoose = require('mongoose');
 const app = express();
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+
+
+
+//Connect to the database
+const db = require('./keys');
+mongoose.connect(db, { useMongoClient: true }).mongodbURI
+.then(()=> console.log('database connected successfully'))
+.catch(error => {
+    console.log(error);
+});
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false }));
