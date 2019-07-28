@@ -12,6 +12,21 @@ app.use(bodyParser.urlencoded({extended: false }));
 app.use(morgan('dev'));
 
 
+
+// Add headers to the response. This will not give any response. It will only edit the information
+// This is also a way to protect your application such that only your domain can access your application
+app.use((req, res, next)=> {
+    res.header('Access-Control-Allow-Origin', '*');    // * gives access to any origin
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+
+    if(req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'Put, Post, Patch, Delete, Update, Get' );
+        return res.status(200).json({});
+    }
+});
+
+
+
 // any request that starts with /products will be handled by the middleware below. 
 // The middleware is passed the productRoutes variable which is required from the  products routes
 app.use('/products', productRoutes);
