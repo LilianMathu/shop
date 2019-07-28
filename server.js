@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const port = process.env.port || 4000;
 const app = require('./app');
 
-app.use(bodyParser.json());
-app.use(bodyParser({ urlencoded: false }));
+// app.use(bodyParser.json());
+// app.use(bodyParser({ urlencoded: false }));
 
 // const db = require('./keys');
 app.listen(port, function (){
