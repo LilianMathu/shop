@@ -10,6 +10,28 @@ const mongoose = require('mongoose');
 const Products = require('../models/products');
 
 
+router.post("/", (req, res, next) => {
+
+  // create a new product on the database
+  const product = new Products({
+    _id: new mongoose.Types.ObjectId(),
+    name: req.body.name,
+    price: req.body.price
+  });
+
+  // Save the new product to the database using save method provided by mongoose for use on mongoose models
+  product
+  .save()
+  .then(result=> console.log({ message: 'The sacco was added successfully' }));
+  res.status(200).json({ 
+    message: "handling /POST requests to /products",
+    createdProduct: product
+  })
+  .catch(err=>{
+    res.status(400).send({ message: `Unable to add the product: ${error}` });
+  });
+});
+
 
 // I have used '/' without the products since in the routes middleware in app.js is specified with a /products
 router.get("/", (req, res, next) => {
@@ -18,25 +40,7 @@ router.get("/", (req, res, next) => {
   });
 });
 
-router.post("/", (req, res, next) => {
-  const product = {
-    name: req.body.name,
-    price: req.body.price
-  };
 
-  // create a new product on the database
-  // const product = new Products({
-  //   _id: new mongoose.Types.ObjectId(),
-
-  // })
-
-
-
-  res.status(201).json({ 
-    message: "handling /POST requests to /products",
-    createdProduct: product
-  });
-});
 
 router.get("/:productId", (req, res, next) => {
   //extract  the products id from the params

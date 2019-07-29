@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 const app = express();
 
 const productRoutes = require('./api/routes/products');
@@ -10,8 +11,8 @@ const orderRoutes = require('./api/routes/orders');
 
 
 //Connect to the database
-const db = require('./keys');
-mongoose.connect(db, { useMongoClient: true }).mongodbURI
+// const db = require('./keys').mongodbURI;
+mongoose.connect('mongodb://localhost:127.0.0.1/shop', { useNewUrlParser: true })
 .then(()=> console.log('database connected successfully'))
 .catch(error => {
     console.log(error);
