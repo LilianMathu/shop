@@ -3,40 +3,44 @@ const router = express.Router();
 
 
 // used where the mongoose model is instantiated
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
 
 // Require the database model
-const Products = require('../models/products');
+// const Products = require('../models/products');
 
 
 router.post("/", (req, res, next) => {
 
+  console.log("post product");
   // create a new product on the database
-  const product = new Products({
-    _id: new mongoose.Types.ObjectId(),
+  const product = {
     name: req.body.name,
     price: req.body.price
-  });
+  };
+  res.status(201).json(product);
 
   // Save the new product to the database using save method provided by mongoose for use on mongoose models
-  product
-  .save()
-  .then(result=> console.log({ message: 'The sacco was added successfully' }));
-  res.status(200).json({ 
-    message: "handling /POST requests to /products",
-    createdProduct: product
-  })
-  .catch(err=>{
-    res.status(400).send({ message: `Unable to add the product: ${error}` });
-  });
+//   product
+//     .save()
+//     .then(result => 
+//       {
+//         console.log(result)
+//         res.status(200).json(result);
+//       }
+//     )
+//   .catch(err => console.log(err));
+
+  
 });
+
+
 
 
 // I have used '/' without the products since in the routes middleware in app.js is specified with a /products
 router.get("/", (req, res, next) => {
-  res.status(200).json({ 
-    message: "handling /GET requests to /products" 
+  res.status(200).json({
+    message: "handling /GET requests to /products"
   });
 });
 
@@ -58,17 +62,17 @@ router.get("/:productId", (req, res, next) => {
 });
 
 
-router.patch("/:productId", (req, res, next)=>{
-    res.status(201).json({
-        message: "This is an updated product"
-    });
+router.patch("/:productId", (req, res, next) => {
+  res.status(201).json({
+    message: "This is an updated product"
+  });
 });
 
 
-router.delete("/:productId", (req, res, next)=>{
-   res.status(200).json({
+router.delete("/:productId", (req, res, next) => {
+  res.status(200).json({
     message: "This is deleted product"
-   });
+  });
 });
 
 module.exports = router;
