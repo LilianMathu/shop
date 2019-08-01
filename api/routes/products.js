@@ -3,35 +3,30 @@ const router = express.Router();
 
 
 // used where the mongoose model is instantiated
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 
 // Require the database model
-// const Products = require('../models/products');
+const Products = require('../models/products');
 
 
 router.post("/", (req, res, next) => {
-
-  console.log("post product");
-  // create a new product on the database
-  const product = {
-    name: req.body.name,
+  const product = new Products({
+    name: req.body.price,
     price: req.body.price
-  };
-  res.status(201).json(product);
-
+  })
   // Save the new product to the database using save method provided by mongoose for use on mongoose models
-//   product
-//     .save()
-//     .then(result => 
-//       {
-//         console.log(result)
-//         res.status(200).json(result);
-//       }
-//     )
-//   .catch(err => console.log(err));
+    product
+      .save()
+      .then(result => 
+        {
+          console.log(result)
+          res.status(200).json(result);
+        }
+      )
+    .catch(err => console.log(err));
 
-  
+
 });
 
 

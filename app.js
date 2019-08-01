@@ -1,18 +1,18 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const app = express();
 
 
 //Connect to the database
 // const db = require('./keys').mongodbURI;
-// mongoose.connect('mongodb://localhost:127.0.0.1/shop', { useNewUrlParser: true })
-// .then(()=> console.log('database connected successfully'))
-// .catch(error => {
-//     console.log(error);
-// });
+mongoose.connect('mongodb://localhost:127.0.0.1/shop', { useNewUrlParser: true })
+.then(()=> console.log('database connected successfully'))
+.catch(error => {
+    console.log(error);
+});
 
 
 app.use(bodyParser.json());
