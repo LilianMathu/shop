@@ -12,6 +12,7 @@ const Products = require('../models/products');
 
 router.post("/", (req, res, next) => {
   const product = new Products({
+    _id: mongoose.Types.ObjectId(),
     name: req.body.price,
     price: req.body.price
   })
@@ -24,19 +25,27 @@ router.post("/", (req, res, next) => {
           res.status(200).json(result);
         }
       )
-    .catch(err => console.log(err));
-
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({error: err});
+    });
 
 });
 
 
-
-
 // I have used '/' without the products since in the routes middleware in app.js is specified with a /products
 router.get("/", (req, res, next) => {
-  res.status(200).json({
-    message: "handling /GET requests to /products"
+  Products.find()
+  .exec()
+  .then(products=>{
+    console.log(products);
+    res.status(200).json(products);
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({error: err});
   });
+
 });
 
 
@@ -44,16 +53,23 @@ router.get("/", (req, res, next) => {
 router.get("/:productId", (req, res, next) => {
   //extract  the products id from the params
   const id = req.params.productId;
-  if (id === "special") {
-    res.status(200).json({
-      message: "you discovered special Id",
-      id
-    });
-  } else {
-    res.status(200).json({
-      message: "you passed an id"
-    });
-  }
+
+  //use the Product model to acquire the product
+  //findByID is a static method
+  Products.findById(id)
+  .exec()
+  .then(doc=>{
+    if(doc){
+      console.log(doc);
+      res.status(200).json(doc);
+    } else {
+      res.status(404).json({ message: "entry does not exist"});
+    }
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({error: err});
+  });
 });
 
 
