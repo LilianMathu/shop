@@ -13,12 +13,12 @@ const Products = require('../models/products');
 router.post("/", (req, res, next) => {
   const product = new Products({
     _id: mongoose.Types.ObjectId(),
-    name: req.body.price,
+    name: req.body.name,
     price: req.body.price
   })
   // Save the new product to the database using save method provided by mongoose for use on mongoose models
     product
-      .save()
+      .save() 
       .then(result => 
         {
           console.log(result)
@@ -38,8 +38,14 @@ router.get("/", (req, res, next) => {
   Products.find()
   .exec()
   .then(products=>{
-    console.log(products);
-    res.status(200).json(products);
+    if(products.length>0){
+      console.log(products);
+      res.status(200).json(products);
+    } else {
+      res.status(404).json({
+        message: "does not exist in db"
+      })
+    }
   })
   .catch(err=>{
     console.log(err);
@@ -63,7 +69,7 @@ router.get("/:productId", (req, res, next) => {
       console.log(doc);
       res.status(200).json(doc);
     } else {
-      res.status(404).json({ message: "entry does not exist"});
+      res.status(404).json({ message: "entry does not exist in database"});
     }
   })
   .catch(err=>{
@@ -81,8 +87,19 @@ router.patch("/:productId", (req, res, next) => {
 
 
 router.delete("/:productId", (req, res, next) => {
-  res.status(200).json({
-    message: "This is deleted product"
+  const id = req.params.productId;
+  Products.remove({_id: id })
+  .exec()
+  .then(result=>{
+    console.log(result);
+    res.status(200).json(result);
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json({ 
+      message: "product not found",
+      error: err
+    });
   });
 });
 
