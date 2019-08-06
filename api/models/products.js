@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 const productsSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: String,
-    price: Number
+    price: {
+        type: Number,
+        required: true
+    }
 });
 
 const Products = mongoose.model('Products', productsSchema);
