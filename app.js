@@ -7,8 +7,8 @@ const app = express();
 
 
 //Connect to the database
-const db = require('./keys').mongodbURI;
-mongoose.connect(db, { useNewUrlParser: true })
+// const db = require('./keys').mongodbURI;
+mongoose.connect('localhost:27017', { useNewUrlParser: true })
 .then(()=> console.log('database connected successfully'))
 .catch(error => {
     console.log(error);

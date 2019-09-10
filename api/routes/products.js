@@ -34,7 +34,6 @@ router.post("/", (req, res, next) => {
 
 });
 
-
 // I have used '/' without the products since in the routes middleware in app.js is specified with a /products
 router.get("/", (req, res, next) => {
   Products.find()
@@ -67,6 +66,7 @@ router.get("/", (req, res, next) => {
 
 
 router.get("/:productId", (req, res, next) => {
+  
   //extract  the products id from the params
   const id = req.params.productId;
 
